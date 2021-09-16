@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Yandex Test App</string>
+    <string name="base_url">https://api.frankfurter.app/</string>
+</resources>
