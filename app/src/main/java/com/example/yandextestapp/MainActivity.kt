@@ -41,12 +41,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSwitchButtonClick(view: View) {
-        val temp = binding.mainFromAmountEdit.text.toString()
-        binding.mainFromAmountEdit.text = binding.mainToAmountEdit.text
-        binding.mainToAmountEdit.setText(temp)
+        binding.mainFromAmountEdit.text = binding.mainToAmountEdit.text.also {
+            binding.mainToAmountEdit.text = binding.mainFromAmountEdit.text
+        }
+
         view.animate()
             .rotationBy(180f).apply {
-                duration = 500
+                duration = 350
                 interpolator = AccelerateInterpolator()
             }.withStartAction {
                 view.isClickable = false

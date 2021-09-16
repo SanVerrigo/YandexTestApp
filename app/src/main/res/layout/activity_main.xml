@@ -26,22 +26,22 @@
         app:layout_constraintTop_toTopOf="@id/main_to_amount_edit" />
 
     <TextView
-        app:layout_constraintTop_toTopOf="@id/main_from_amount_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/from_hint_text"
         app:layout_constraintBottom_toBottomOf="@id/main_from_amount_edit"
         app:layout_constraintEnd_toStartOf="@id/main_from_amount_edit"
-        android:layout_marginEnd="16dp"
-        android:text="From:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintTop_toTopOf="@id/main_from_amount_edit" />
 
     <TextView
-        app:layout_constraintTop_toTopOf="@id/main_to_amount_edit"
-        app:layout_constraintBottom_toBottomOf="@id/main_to_amount_edit"
-        app:layout_constraintStart_toEndOf="@id/main_from_amount_edit"
-        android:layout_marginStart="16dp"
-        android:text=": to"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/to_hint_text"
+        app:layout_constraintBottom_toBottomOf="@id/main_to_amount_edit"
+        app:layout_constraintStart_toEndOf="@id/main_to_amount_edit"
+        app:layout_constraintTop_toTopOf="@id/main_to_amount_edit" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/main_from_amount_edit"
@@ -49,8 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="128dp"
         android:layout_marginEnd="128dp"
-        android:hint="С какой валюты"
+        android:hint="@string/from_amount_edit_text"
         android:inputType="numberDecimal"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@id/main_switch_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,14 +59,15 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
+        android:background="?selectableItemBackgroundBorderless"
         android:id="@+id/main_switch_button"
-        app:layout_constraintStart_toStartOf="@id/main_from_amount_edit"
-        app:layout_constraintEnd_toEndOf="@id/main_from_amount_edit"
-        app:layout_constraintTop_toBottomOf="@id/main_from_amount_edit"
-        app:layout_constraintBottom_toTopOf="@id/main_to_amount_edit"
-        android:src="@drawable/ic_baseline_swap_vert_24"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_swap_vert_24"
+        app:layout_constraintBottom_toTopOf="@id/main_to_amount_edit"
+        app:layout_constraintEnd_toEndOf="@id/main_from_amount_edit"
+        app:layout_constraintStart_toStartOf="@id/main_from_amount_edit"
+        app:layout_constraintTop_toBottomOf="@id/main_from_amount_edit" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/main_to_amount_edit"
@@ -73,10 +75,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="128dp"
         android:layout_marginEnd="128dp"
-        android:hint="На какую валюту"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
+        android:hint="@string/to_amount_edit_text"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,10 +87,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/main_convert_button"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Конверитровать"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/convert_button_text"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

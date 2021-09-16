@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Yandex Test App</string>
     <string name="base_url">https://api.frankfurter.app/</string>
+    <string name="convert_button_text">Конверитровать</string>
+    <string name="to_amount_edit_text">←</string>
+    <string name="from_amount_edit_text">→</string>
+    <string name="from_hint_text">From:</string>
+    <string name="to_hint_text">: to</string>
 </resources>
