@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.example.yandextestapp.databinding.ActivityMainBinding
 import com.example.yandextestapp.entities.Currency
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onConvertButtonClick(view: View) {
         if (binding.mainFromAmountEdit.text.isNullOrBlank()) {
-
+            binding.mainFromAmountEdit.error = getString(R.string.error_empty)
         } else {
             convertRepo.convert(
                 binding.mainFromAmountEdit.text.toString().toFloat(),
@@ -92,12 +92,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setState(loading: Boolean) {
+        if (loading) {
+            binding.apply {
+                mainConvertButton.isEnabled = false
+                mainProgress.isVisible = true
+                mainSwitchButton.isInvisible = true
+                mainSwitchButton.isEnabled = false
+            }
+        } else {
+            binding.apply {
+                mainConvertButton.isEnabled = true
+                mainProgress.isInvisible = true
+                mainSwitchButton.isVisible = true
+                mainSwitchButton.isEnabled = true
+            }
+        }
+    }
+
     private fun initialLoad() {
+        setState(true)
         convertRepo.getCurrencies()
             .map { currencies -> currencies.map(Currency::code) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ currenciesCodes ->
+                setState(false)
                 adapterFrom.addAll(currenciesCodes)
                 adapterTo.addAll(currenciesCodes)
             },

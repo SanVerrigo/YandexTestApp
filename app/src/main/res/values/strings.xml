@@ -6,4 +6,5 @@
     <string name="from_amount_edit_text">→</string>
     <string name="from_hint_text">From:</string>
     <string name="to_hint_text">: to</string>
+    <string name="error_empty">Введите значение</string>
 </resources>
