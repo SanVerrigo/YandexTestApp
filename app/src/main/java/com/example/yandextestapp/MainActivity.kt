@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         if (binding.mainFromAmountEdit.text.isNullOrBlank()) {
             binding.mainFromAmountEdit.error = getString(R.string.error_empty)
         } else {
+            setState(true)
             convertRepo.convert(
                 binding.mainFromAmountEdit.text.toString().toFloat(),
                 binding.mainSpinnerFrom.selectedItem as String,
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { setState(false) }
                 .subscribe(
                     { am ->
                         binding.mainToAmountEdit.setText(am.toString())
