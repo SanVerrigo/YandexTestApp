@@ -9,6 +9,7 @@ import android.view.animation.RotateAnimation
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.yandextestapp.databinding.ActivityMainBinding
+import com.example.yandextestapp.entities.Currency
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -44,6 +45,10 @@ class MainActivity : AppCompatActivity() {
         binding.mainFromAmountEdit.text = binding.mainToAmountEdit.text.also {
             binding.mainToAmountEdit.text = binding.mainFromAmountEdit.text
         }
+
+        val selectedToItem = binding.mainSpinnerTo.selectedItemPosition
+        binding.mainSpinnerTo.setSelection(binding.mainSpinnerFrom.selectedItemPosition)
+        binding.mainSpinnerFrom.setSelection(selectedToItem)
 
         view.animate()
             .rotationBy(180f).apply {
@@ -89,11 +94,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialLoad() {
         convertRepo.getCurrencies()
+            .map { currencies -> currencies.map(Currency::code) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ items ->
-                adapterFrom.addAll(items)
-                adapterTo.addAll(items)
+            .subscribe({ currenciesCodes ->
+                adapterFrom.addAll(currenciesCodes)
+                adapterTo.addAll(currenciesCodes)
             },
                 {
                     Toast.makeText(this, "Sorry, error ${it.localizedMessage}", Toast.LENGTH_LONG)
