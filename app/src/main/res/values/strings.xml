@@ -7,4 +7,6 @@
     <string name="from_hint_text">From:</string>
     <string name="to_hint_text">: to</string>
     <string name="error_empty">Введите значение</string>
+    <string name="rate_format">%.2f</string>
+    <string name="error_generic">Error has occurred: \"%s\"</string>
 </resources>

@@ -16,7 +16,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var convertRepo: ConvertRepoImpl
+    private lateinit var convertRepo: ConvertRepo
 
     private lateinit var binding: ActivityMainBinding
     private val adapterFrom: ArrayAdapter<String> by lazy {
@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         binding.mainConvertButton.setOnClickListener(::onConvertButtonClick)
         binding.mainSwitchButton.setOnClickListener(::onSwitchButtonClick)
         initialLoad()
+    }
+
+    override fun onDestroy() {
+        disposables.dispose()
+        super.onDestroy()
     }
 
     private fun onSwitchButtonClick(view: View) {
@@ -65,6 +70,8 @@ class MainActivity : AppCompatActivity() {
     private fun onConvertButtonClick(view: View) {
         if (binding.mainFromAmountEdit.text.isNullOrBlank()) {
             binding.mainFromAmountEdit.error = getString(R.string.error_empty)
+        } else if (binding.mainSpinnerFrom.selectedItem.toString() == binding.mainSpinnerTo.selectedItem.toString()) {
+            binding.mainToAmountEdit.text = binding.mainFromAmountEdit.text
         } else {
             setState(true)
             convertRepo.convert(
@@ -76,16 +83,15 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { setState(false) }
                 .subscribe(
-                    { am ->
-                        binding.mainToAmountEdit.setText(am.toString())
+                    { rates ->
+                        binding.mainToAmountEdit.setText(getString(R.string.rate_format, rates))
                     },
                     {
                         Toast.makeText(
                             this,
-                            "Sorry, error ${it.localizedMessage}",
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
+                            getString(R.string.error_generic, it.localizedMessage),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 )
                 .also {
@@ -124,8 +130,11 @@ class MainActivity : AppCompatActivity() {
                 adapterTo.addAll(currenciesCodes)
             },
                 {
-                    Toast.makeText(this, "Sorry, error ${it.localizedMessage}", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(
+                        this,
+                        getString(R.string.error_generic, it.localizedMessage),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
             .also {
